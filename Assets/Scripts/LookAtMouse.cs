@@ -1,12 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
  
-public class LookAtMouse : MonoBehaviour
-{
- 
-	// speed is the rate at which the object will rotate
-	public float speed;
-	
+public class LookAtMouse : MonoBehaviour {
 	void FixedUpdate () 
 	{
     	// Generate a plane that intersects the transform's position with an upwards normal.
@@ -26,16 +21,9 @@ public class LookAtMouse : MonoBehaviour
 		{
         	// Get the point along the ray that hits the calculated distance.
         	Vector3 targetPoint = ray.GetPoint(hitdist);
- 
-        	// Determine the target rotation.  This is the rotation if the transform looks at the target point.
-        	//Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
-			
-			Quaternion targetRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
-			
- 
+
         	// Smoothly rotate towards the target point.
         	transform.LookAt(targetPoint);
-				//Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
 		}
     }
 }

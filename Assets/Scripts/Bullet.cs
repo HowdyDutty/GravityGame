@@ -4,6 +4,7 @@ using System.Collections;
 public class Bullet : MonoBehaviour {
 	
 	public float moveSpeed;
+	public Cat cat;
 
 	// Use this for initialization
 	void Start () {
@@ -19,7 +20,11 @@ public class Bullet : MonoBehaviour {
 	
 	}
 	
-	void OnTriggerEnter() {
+	void OnTriggerEnter(Collider other) {
+		
+		if (other.CompareTag("Cat"))
+						
+		
 		Destroy(this.gameObject);	 //If it collides with something.
 	}
 }
