@@ -1,32 +1,41 @@
 ﻿using UnityEngine;
 using System.Collections;
  
-public class LookAtMouse : MonoBehaviour {	 
+public class LookAtMouse : MonoBehaviour
+{
+ 
+	// speed is the rate at which the object will rotate
+	public float speed;
 	
-	private Vector3 worldPos;
-	private float mouseX;
-	private float mouseY;
-	private float cameraDif;
-	public GameObject fpc;
-	 
-	void Start () {
-	 
-	    //determines how far down the ScreenToWorldPoint is from the camera position
-	    //it's calculated [height of camera] - [height of pivot point of character]
-	    //this is to ensure the character only rotates (via LookAt) along rotation.x and doesn't look up or down
-	    cameraDif = camera.transform.position.z - fpc.transform.position.z+20;
-	}
-	 
-	void Update () {
-	 
-	    mouseX = Input.mousePosition.x;
-	    mouseY = Input.mousePosition.y;
-	 
-	    //this takes your current camera and defines the world position where your mouse cursor is at the height of your character 
-		//translates your onscreen position of mouse into world coordinates
-	    worldPos = camera.ScreenToWorldPoint(new Vector3(mouseX, mouseY, cameraDif));
-	 
-	    fpc.transform.LookAt(worldPos);
-	 
-	}
+	void FixedUpdate () 
+	{
+    	// Generate a plane that intersects the transform's position with an upwards normal.
+    	Plane playerPlane = new Plane(Vector3.forward, transform.position);
+ 
+    	// Generate a ray from the cursor position
+    	Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+ 
+    	// Determine the point where the cursor ray intersects the plane.
+    	// This will be the point that the object must look towards to be looking at the mouse.
+    	// Raycasting to a Plane object only gives us a distance, so we'll have to take the distance,
+    	//   then find the point along that ray that meets that distance.  This will be the point
+    	//   to look at.
+    	float hitdist = 0.0f;
+    	// If the ray is parallel to the plane, Raycast will return false.
+    	if (playerPlane.Raycast (ray, out hitdist)) 
+		{
+        	// Get the point along the ray that hits the calculated distance.
+        	Vector3 targetPoint = ray.GetPoint(hitdist);
+ 
+        	// Determine the target rotation.  This is the rotation if the transform looks at the target point.
+        	//Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
+			
+			Quaternion targetRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+			
+ 
+        	// Smoothly rotate towards the target point.
+        	transform.LookAt(targetPoint);
+				//Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
+		}
+    }
 }

@@ -13,7 +13,7 @@ public class Bullet : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		Vector3 moveDirection = new Vector3(Time.deltaTime*moveSpeed, Time.deltaTime*moveSpeed, 0);
+		Vector3 moveDirection = Vector2.up * moveSpeed * Time.deltaTime;
 		
 		transform.Translate(moveDirection);
 	
