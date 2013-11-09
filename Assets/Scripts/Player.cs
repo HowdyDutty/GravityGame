@@ -14,6 +14,5 @@ public class Player : MonoBehaviour {
 	void Update () {
 		
 		transform.position += new Vector3(Input.GetAxis("Horizontal")*moveSpeed*Time.deltaTime, 0, 0);
-	
 	}
 }

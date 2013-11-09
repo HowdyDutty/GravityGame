@@ -31,7 +31,7 @@ public class Physics : MonoBehaviour {
 	}
 	
 	void OnTriggerStay(Collider other) {	// Checks if the gameObject is colliding with the floor.
-		if (other.gameObject.name.Equals("Floor"))
+		//if (other.gameObject.name.Equals("Floor"))
 			isGrounded = true;
 	}
 	
